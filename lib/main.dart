@@ -33,14 +33,16 @@ class _CalcmainState extends State<Calcmain> {
        child: Column(
          children: <Widget>[
            SizedBox(
-             height: 100,
+             height: 140,
              width: 10,
            ),
-           SizedBox(
-             height: 100,
+           Container(
+             alignment: Alignment(0.8,0.8),
+            height: 140,
+              child: Text('0',style: TextStyle(fontSize: 85,color: Colors.white),),
            ),//결과창 표시 예정
            SizedBox(
-             height: 100,
+             height: 10,
              width: 10,
            ),
            Row(
