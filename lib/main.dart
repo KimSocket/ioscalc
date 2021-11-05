@@ -39,10 +39,11 @@ class _CalcmainState extends State<Calcmain> {
     late int firstNum;
     late int secondNum;
     late String displaytext = '0';
-    late String res;
+    late String res = '0';
     late String operation;
-   // late String AnAC;
     void btntap(String btnVal){
+
+
       print(btnVal);
       if (btnVal == 'AC'){
         displaytext = '';
@@ -167,7 +168,7 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
              children: <Widget>[
-               CalcButton4(pad: ' 0',callback: btntap,),
+               CalcButton4(pad: '0',callback: btntap,),
                CalcButton3(pad: '.',callback: btntap,),
                CalcButton2(pad: '=', callback: btntap,),
              ],
