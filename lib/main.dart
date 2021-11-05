@@ -36,12 +36,13 @@ class Calcmain extends StatefulWidget {
 
 
 class _CalcmainState extends State<Calcmain> {
-     num op1 = 0;
-     num op2 = 0;
-     String displaytext = '0';
-     String res = '0';
-     String operator = '';
-     String AnAC = '';
+     num op1 = 0; // 제1 피연산자
+     num op2 = 0;// 제2 피연산자
+     String decimal = '.'; // 소숫점
+     String displaytext = '0'; //디스플레이
+     String res = '0'; // 결과
+     String operator = '';//연산자
+     String AnAC = 'AC';// AC/C
     void btntap(String btnVal){
       print(btnVal);
       if (btnVal == 'AC'){
@@ -49,6 +50,8 @@ class _CalcmainState extends State<Calcmain> {
         op1 = 0;
         op2 = 0;
         res = '0';
+      }else if(btnVal == '.'){
+
       }else if(btnVal == 'C' ){
         displaytext ='';
         op1 = 0;
@@ -83,6 +86,7 @@ class _CalcmainState extends State<Calcmain> {
         }
         if(operator == '÷'){
           res = (op1 / op2).toString();
+
         }
       } else {
         res = int.parse(displaytext + btnVal).toString();
@@ -91,13 +95,10 @@ class _CalcmainState extends State<Calcmain> {
       setState(() {
         displaytext = res;
       });
-
-
-
-      if (displaytext == '0'){
-        AnAC == 'AC';
-      }else if(displaytext != '0'){
-        AnAC == 'C';
+      if (res == '0'){
+        AnAC = 'AC';
+      }else if(res != '0'){
+        AnAC = 'C';
       }
     }
 
@@ -110,15 +111,15 @@ class _CalcmainState extends State<Calcmain> {
          children: <Widget>[
 
            SizedBox(
-             height: 140,
+             height: 160,
              width: 10,
            ),
            Container(
              alignment: Alignment(0.8,0.8),
-             height: 140,
+             height: 160,
               child: Text(
                 displaytext,
-                style: TextStyle(fontSize: 65,color: Colors.white),
+                style: TextStyle(fontSize: 80,color: Colors.white),
               )
 
            ),//결과창
@@ -179,7 +180,7 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
              children: <Widget>[
-               CalcButton4(pad: '0',callback: btntap,),
+               CalcButton4(pad: AnAC,callback: btntap,),
                CalcButton3(pad: '.',callback: btntap,),
                CalcButton2(pad: '=', callback: btntap,),
              ],
@@ -192,10 +193,7 @@ class _CalcmainState extends State<Calcmain> {
 
     );
   }
-  /*@override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(IntProperty('op1', op1));*/
+
   }
 
 
