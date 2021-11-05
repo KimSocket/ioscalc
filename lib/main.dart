@@ -36,63 +36,74 @@ class Calcmain extends StatefulWidget {
 
 
 class _CalcmainState extends State<Calcmain> {
-    late int firstNum;
-    late int secondNum;
-    late String displaytext = '0';
-    late String res = '0';
-    late String operation;
+     num op1 = 0;
+     num op2 = 0;
+     String displaytext = '0';
+     String res = '0';
+     String operator = '';
+     String AnAC = '';
     void btntap(String btnVal){
-
-
       print(btnVal);
       if (btnVal == 'AC'){
         displaytext = '';
-        firstNum = 0;
-        secondNum = 0;
-        res = '';
+        op1 = 0;
+        op2 = 0;
+        res = '0';
       }else if(btnVal == 'C' ){
         displaytext ='';
-        firstNum = 0;
-        secondNum =0;
+        op1 = 0;
+        op2 =0;
         res = '';
       }else if(btnVal == '%'){
+        op1 = int.parse(displaytext);
+        res = (op1 / 100).toString();
+      }else if(btnVal == '+/-'){
+        if( displaytext[0] != '-'){
+          res = '-'+displaytext;
+        } else {
+          res = displaytext.substring(1);
+        }
       }else if(btnVal == '+' ||
           btnVal == '-' ||
           btnVal == '×' ||
           btnVal == '÷'){
-        firstNum = int.parse(displaytext);
+        op1 = int.parse(displaytext);
         res = '';
-        operation = btnVal;
+        operator = btnVal;
       }else if (btnVal == '='){
-        secondNum = int.parse(displaytext);
-        if(operation == '+'){
-          res = (firstNum + secondNum).toString();
+        op2 = int.parse(displaytext);
+        if(operator == '+'){
+          res = (op1 + op2).toString();
         }
-        if(operation == '-'){
-          res = (firstNum - secondNum).toString();
+        if(operator == '-'){
+          res = (op1 - op2).toString();
         }
-        if(operation == '×'){
-          res = (firstNum * secondNum).toString();
+        if(operator == '×'){
+          res = (op1 * op2).toString();
         }
-        if(operation == '÷'){
-          res = (firstNum / secondNum).toString();
-        } else{
-          res = int.parse(displaytext + btnVal).toString();
+        if(operator == '÷'){
+          res = (op1 / op2).toString();
         }
-        setState(() {
-          displaytext = res;
-        });
+      } else {
+        res = int.parse(displaytext + btnVal).toString();
       }
 
+      setState(() {
+        displaytext = res;
+      });
 
+
+
+      if (displaytext == '0'){
+        AnAC == 'AC';
+      }else if(displaytext != '0'){
+        AnAC == 'C';
+      }
     }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
-
       appBar: null,
       body: Center(
        child: Column(
@@ -107,7 +118,7 @@ class _CalcmainState extends State<Calcmain> {
              height: 140,
               child: Text(
                 displaytext,
-                style: TextStyle(fontSize: 70,color: Colors.white),
+                style: TextStyle(fontSize: 65,color: Colors.white),
               )
 
            ),//결과창
@@ -181,7 +192,12 @@ class _CalcmainState extends State<Calcmain> {
 
     );
   }
-}
+  /*@override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(IntProperty('op1', op1));*/
+  }
+
 
 
 
