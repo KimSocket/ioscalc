@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:ioscalc/widget/calcbutton2.dart';
+import './widget/calcbutton.dart';
+import 'package:ioscalc/widget/calcbutton3.dart';
+import 'package:ioscalc/widget/calcbutton4.dart';
 
 
 void main()=> runApp(Calc());
 
+
+
+
 class Calc extends StatelessWidget{
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,27 +31,85 @@ class Calcmain extends StatefulWidget {
 
   @override
   _CalcmainState createState() => _CalcmainState();
+
 }
 
 
 class _CalcmainState extends State<Calcmain> {
+    late int firstNum;
+    late int secondNum;
+    late String displaytext = '0';
+    late String res;
+    late String operation;
+   // late String AnAC;
+    void btntap(String btnVal){
+      print(btnVal);
+      if (btnVal == 'AC'){
+        displaytext = '';
+        firstNum = 0;
+        secondNum = 0;
+        res = '';
+      }else if(btnVal == 'C' ){
+        displaytext ='';
+        firstNum = 0;
+        secondNum =0;
+        res = '';
+      }else if(btnVal == '%'){
+      }else if(btnVal == '+' ||
+          btnVal == '-' ||
+          btnVal == '×' ||
+          btnVal == '÷'){
+        firstNum = int.parse(displaytext);
+        res = '';
+        operation = btnVal;
+      }else if (btnVal == '='){
+        secondNum = int.parse(displaytext);
+        if(operation == '+'){
+          res = (firstNum + secondNum).toString();
+        }
+        if(operation == '-'){
+          res = (firstNum - secondNum).toString();
+        }
+        if(operation == '×'){
+          res = (firstNum * secondNum).toString();
+        }
+        if(operation == '÷'){
+          res = (firstNum / secondNum).toString();
+        } else{
+          res = int.parse(displaytext + btnVal).toString();
+        }
+        setState(() {
+          displaytext = res;
+        });
+      }
+
+
+    }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+
 
       appBar: null,
       body: Center(
        child: Column(
          children: <Widget>[
+
            SizedBox(
              height: 140,
              width: 10,
            ),
            Container(
              alignment: Alignment(0.8,0.8),
-            height: 140,
-              child: Text('0',style: TextStyle(fontSize: 85,color: Colors.white),),
-           ),//결과창 표시 예정
+             height: 140,
+              child: Text(
+                displaytext,
+                style: TextStyle(fontSize: 70,color: Colors.white),
+              )
+
+           ),//결과창
            SizedBox(
              height: 10,
              width: 10,
@@ -49,77 +118,10 @@ class _CalcmainState extends State<Calcmain> {
              mainAxisAlignment: MainAxisAlignment.spaceAround,
                children: <Widget>[
 
-                 Container(
-                   decoration: BoxDecoration(
-                       color: Colors.white70,
-                       borderRadius: BorderRadius.circular(35)
-                   ),
-                   height: 70,
-                   width: 70,
-                    child:InkWell(
-                      highlightColor: Colors.white,
-                      child: Center(
-                        child: Text(
-                          'AC',
-                          style: TextStyle(fontSize: 35,color: Colors.black),
-                        ),
-                      ),
-                      onTap: (){
-                        setState(() {
-                        });
-                    },
-                    ),
-                 ),
-                 Container(
-                   decoration: BoxDecoration(
-                       color: Colors.white70,
-                       borderRadius: BorderRadius.circular(35)
-                   ),
-                   height: 70,
-                   width: 70,
-                   child:InkWell(
-                     highlightColor: Colors.white,
-                     child: Center(
-                       child: Text('+/-',style: TextStyle(fontSize: 35,color: Colors.black)),),
-                     onTap: (){
-                       setState(() {
-                       });
-                     },
-                   ),
-                 ),
-                 Container(
-                   decoration: BoxDecoration(
-                       color: Colors.white70,
-                       borderRadius: BorderRadius.circular(35)
-                   ),
-                   height: 70,
-                   width: 70,
-                   child:InkWell(
-                     highlightColor: Colors.white,
-                     child: Center(
-                       child: Text('%',style: TextStyle(fontSize: 45,color: Colors.black)),),
-                     onTap: (){
-                       setState(() {
-                       });
-                     },
-                   ),
-                 ),
-                 Container(
-                   decoration: BoxDecoration(
-                       color: Colors.orangeAccent,
-                       borderRadius: BorderRadius.circular(35)
-                   ),
-                   height: 70,
-                   width: 70,
-                   child:InkWell(
-                     highlightColor: Colors.white,
-                     child: Center(child: Text('÷',style: TextStyle(fontSize: 50, color: Colors.white)),),
-                     onTap: (){
-                       setState(() {
-                       });
-                     },
-                   ),
-                 ),
+                 CalcButton(pad: 'AC', callback: btntap,),
+                 CalcButton(pad: '+/-', callback: btntap,),
+                 CalcButton(pad: '%', callback: btntap,),
+                 CalcButton2(pad: '÷', callback: btntap,),
                ],
            ),//ac,+/-,%,÷
            SizedBox(
@@ -128,70 +130,10 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
              children: <Widget>[
-               Container(
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child: Text('7',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child: Text('8',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child: Text('9',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 decoration: BoxDecoration(
-                     color: Colors.orangeAccent,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('×',style: TextStyle(fontSize: 60, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
+               CalcButton3(pad: '7',callback: btntap,),
+               CalcButton3(pad: '8',callback: btntap,),
+               CalcButton3(pad: '9',callback: btntap,),
+               CalcButton2(pad: '×', callback: btntap,),
              ],
              ),//7,8,9,x
            SizedBox(
@@ -200,72 +142,10 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
              children: <Widget>[
-               Container(
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('4',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 height: 70,
-                 width: 70,
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('5',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 height: 70,
-                 width: 70,
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('6',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 decoration: BoxDecoration(
-                   color: Colors.orangeAccent,
-                   borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child: Center(
-                   child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('-',style: TextStyle(fontSize: 60, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-                 ),
-               ),
+               CalcButton3(pad: '4',callback: btntap,),
+               CalcButton3(pad: '5',callback: btntap,),
+               CalcButton3(pad: '6',callback: btntap,),
+               CalcButton2(pad: '-', callback: btntap,),
              ],
            ),//4,5,6,-
            SizedBox(
@@ -274,70 +154,11 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
              children: <Widget>[
-               Container(
-                 height: 70,
-                 width: 70,
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('1',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 height: 70,
-                 width: 70,
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('2',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 height: 70,
-                 width: 70,
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('3',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 decoration: BoxDecoration(
-                     color: Colors.orangeAccent,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('+',style: TextStyle(fontSize: 60, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
+               CalcButton3(pad: '1',callback: btntap,),
+               CalcButton3(pad: '2',callback: btntap,),
+               CalcButton3(pad: '3',callback: btntap,),
+               CalcButton2(pad: '+', callback: btntap,),
+
              ],
            ),//1,2,3,+
            SizedBox(
@@ -346,55 +167,9 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
              children: <Widget>[
-               Container(
-                 height: 60,
-                 width: 160,
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Text('  0',style: TextStyle(fontSize: 47, color: Colors.white)),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-
-               Container(
-                 height: 70,
-                 width: 70,
-                 decoration: BoxDecoration(
-                     color: Colors.white24,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('.',style: TextStyle(fontSize: 40, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
-               Container(
-                 decoration: BoxDecoration(
-                     color: Colors.orangeAccent,
-                     borderRadius: BorderRadius.circular(35)
-                 ),
-                 height: 70,
-                 width: 70,
-                 child:InkWell(
-                   highlightColor: Colors.white,
-                   child: Center(child:Text('=',style: TextStyle(fontSize: 60, color: Colors.white)),),
-                   onTap: (){
-                     setState(() {
-                     });
-                   },
-                 ),
-               ),
+               CalcButton4(pad: ' 0',callback: btntap,),
+               CalcButton3(pad: '.',callback: btntap,),
+               CalcButton2(pad: '=', callback: btntap,),
              ],
            ), //0,.,=
          ],
@@ -404,9 +179,9 @@ class _CalcmainState extends State<Calcmain> {
 
 
     );
-
   }
 }
+
 
 
 
