@@ -43,20 +43,18 @@ class _CalcmainState extends State<Calcmain> {
      String res = '0'; // 결과
      String operator = '';//연산자
      String AnAC = 'AC';// AC/C
-    void btntap(String btnVal){
+     void btntap(String btnVal){
       print(btnVal);
       if (btnVal == 'AC'){
         displaytext = '';
         op1 = 0;
         op2 = 0;
         res = '0';
-      }else if(btnVal == '.'){
-
       }else if(btnVal == 'C' ){
         displaytext ='';
-        op1 = 0;
+        //op1 = 0;
         op2 =0;
-        res = '';
+        res = '0';
       }else if(btnVal == '%'){
         op1 = int.parse(displaytext);
         res = (op1 / 100).toString();
@@ -66,7 +64,7 @@ class _CalcmainState extends State<Calcmain> {
         } else {
           res = displaytext.substring(1);
         }
-      }else if(btnVal == '+' ||
+        }else if(btnVal == '+' ||
           btnVal == '-' ||
           btnVal == '×' ||
           btnVal == '÷'){
@@ -95,7 +93,7 @@ class _CalcmainState extends State<Calcmain> {
       setState(() {
         displaytext = res;
       });
-      if (res == '0'){
+      if (displaytext == '0'){
         AnAC = 'AC';
       }else if(res != '0'){
         AnAC = 'C';
@@ -119,7 +117,7 @@ class _CalcmainState extends State<Calcmain> {
              height: 160,
               child: Text(
                 displaytext,
-                style: TextStyle(fontSize: 80,color: Colors.white),
+                style: TextStyle(fontSize: 70,color: Colors.white),
               )
 
            ),//결과창
@@ -130,8 +128,7 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
                children: <Widget>[
-
-                 CalcButton(pad: 'AC', callback: btntap,),
+                 CalcButton(pad: AnAC, callback: btntap,),
                  CalcButton(pad: '+/-', callback: btntap,),
                  CalcButton(pad: '%', callback: btntap,),
                  CalcButton2(pad: '÷', callback: btntap,),
@@ -180,7 +177,7 @@ class _CalcmainState extends State<Calcmain> {
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
              children: <Widget>[
-               CalcButton4(pad: AnAC,callback: btntap,),
+               CalcButton4(pad: '0',callback: btntap,),
                CalcButton3(pad: '.',callback: btntap,),
                CalcButton2(pad: '=', callback: btntap,),
              ],
